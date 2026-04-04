@@ -1,0 +1,12 @@
+body {
+    margin: 0;;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #fff;
+  color: #333;
+}
+
+.container-xxl {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
