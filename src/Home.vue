@@ -45,7 +45,7 @@ watch(
             :key="currency"
             :value="currency.iso_code"
           >
-            {{ currency.iso_code }}
+            {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
           </option>
         </select>
         <div class="exchange__rates">
@@ -53,7 +53,7 @@ watch(
             v-for="item in data"
             class="exchange__rate-item"
           >
-            <span class="exchange__currency">{{ getCurrencyName(item.quote) }} ({{ item.quote }})</span>
+            <span class="exchange__currency">{{ item.quote }} ({{ getCurrencyName(item.quote) }})</span>
             <span class="exchange__rate">{{ item.rate }}</span>
           </div>
         </div>
