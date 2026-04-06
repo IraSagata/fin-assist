@@ -4,13 +4,15 @@ import { useFetch } from './scripts/fetch'
 
 const apiBaseUrl = 'https://api.frankfurter.dev/v2'
 
-const baseCurrencies = reactive(['UAH','USD', 'EUR', 'PLN'])
-
 const selectedCurrency = ref('UAH')
 
 const targetCurrencies = reactive(['USD', 'EUR', 'PLN', 'AED', 'UAH'])
 
-const { data, error } = useFetch(`${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`)
+const { data: baseCurrencies } = useFetch(`${apiBaseUrl}/currencies`)
+
+const data = ref(null)
+
+// const { data, error } = useFetch(`${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`)
 
 // https://api.frankfurter.dev/v2/rates?base=UAH&quotes=USD,EUR,PLN,AED,UAH
 
@@ -37,9 +39,9 @@ watch(
             class="exchange__option"
             v-for="currency in baseCurrencies"
             :key="currency"
-            :value="currency"
+            :value="currency.iso_code"
           >
-            {{ currency }}
+            {{ currency.iso_code }}
           </option>
         </select>
         <div class="exchange__rates">
