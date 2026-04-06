@@ -8,9 +8,13 @@ const selectedCurrency = ref('UAH')
 
 const targetCurrencies = reactive(['USD', 'EUR', 'PLN', 'AED', 'UAH'])
 
-const { data: baseCurrencies } = useFetch(`${apiBaseUrl}/currencies`)
+const { data: allCurrencies } = useFetch(`${apiBaseUrl}/currencies`)
 
 const data = ref(null)
+
+const getCurrencyName = (currency: string) => {
+  return allCurrencies.value.find(item => item.iso_code === currency).name
+}
 
 // const { data, error } = useFetch(`${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`)
 
@@ -37,7 +41,7 @@ watch(
         <select class="exchange__select" id="currencies" v-model="selectedCurrency">
           <option
             class="exchange__option"
-            v-for="currency in baseCurrencies"
+            v-for="currency in allCurrencies"
             :key="currency"
             :value="currency.iso_code"
           >
@@ -49,7 +53,7 @@ watch(
             v-for="item in data"
             class="exchange__rate-item"
           >
-            <span class="exchange__currency">{{ item.quote }}</span>
+            <span class="exchange__currency">{{ getCurrencyName(item.quote) }} ({{ item.quote }})</span>
             <span class="exchange__rate">{{ item.rate }}</span>
           </div>
         </div>
