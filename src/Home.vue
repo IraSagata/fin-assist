@@ -13,10 +13,10 @@ const { data: allCurrencies } = useFetch(`${apiBaseUrl}/currencies`)
  
 const data = ref(null)
 
-// const { data: allCurrencies }: { data: AllCurrencies } = useFetch(`${apiBaseUrl}/currencies`);
-
-const getCurrencyName = (currency: string) => {
-  return allCurrencies.value?.find(item => item.iso_code === currency)?.name
+const getCurrencyName = (currencyCode: string) => {
+  const allCurrenciesArray = allCurrencies.value as Array<{ iso_code: string; name: string }> | null
+  const currency = allCurrenciesArray?.find(item => item.iso_code === currencyCode)
+  return currency?.name
 }
 
 // const { data, error } = useFetch(`${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`)
