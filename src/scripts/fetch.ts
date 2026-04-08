@@ -11,3 +11,4 @@ export function useFetch(url: string) {
 
   return { data, error }
 }
+
