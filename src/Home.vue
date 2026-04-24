@@ -6,9 +6,18 @@ import Banner from './components/Banner.vue'
 const apiBaseUrl = 'https://api.frankfurter.dev/v2'
  
 const selectedCurrency = ref('UAH')
-
+const amount = ref(1)
 const targetCurrencies = reactive(['USD', 'EUR', 'PLN', 'AED', 'UAH'])
- 
+
+// Load from localStorage on init
+const storedTargetCurrencies = localStorage.getItem('targetCurrencies')
+if (storedTargetCurrencies) {
+  const parsedCurrencies = JSON.parse(storedTargetCurrencies)
+  if (Array.isArray(parsedCurrencies)) {
+    targetCurrencies.splice(0, targetCurrencies.length, ...parsedCurrencies)
+  }
+}
+
 const { data: allCurrencies } = useFetch(`${apiBaseUrl}/currencies`)
  
 const data = ref(null)
@@ -23,8 +32,12 @@ const getCurrencyName = (currencyCode: string) => {
 
 // https://api.frankfurter.dev/v2/rates?base=UAH&quotes=USD,EUR,PLN,AED,UAH
 
+// rozetka.ua
+
+// api.rozetka.ua/api/
+
 watch(
-  [selectedCurrency, targetCurrencies], 
+  [selectedCurrency, targetCurrencies, amount], 
   async () => {
     const response = await fetch(
       `${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`
@@ -43,10 +56,13 @@ const addCurrency = () => {
     alert('Already added')
     return
   }
-  console.log('Adding currency:', newCurrency.value) // Debug log
-  targetCurrencies.push(newCurrency.value) // ✅ THIS is key
-  console.log('Updated targetCurrencies:', targetCurrencies) // Debug log
+
+  targetCurrencies.push(newCurrency.value)
+  newCurrency.value = ''
+
+  localStorage.setItem('targetCurrencies', JSON.stringify(targetCurrencies))
 }
+
 </script>
 
 <template>
@@ -68,6 +84,8 @@ const addCurrency = () => {
               {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
             </option>
           </select>
+          <label class="exchange__amount-label" for="amount">Amount:</label>
+          <input class="exchange__amount" type="number" v-model="amount" />
         <div class="exchange__rates">
             <div
               v-for="item in data"
@@ -78,7 +96,7 @@ const addCurrency = () => {
                 {{ item.quote }} ({{ getCurrencyName(item.quote) }})
               </span>
               <span class="exchange__rate">
-                {{ item.rate }}
+                {{ (item.rate * amount).toFixed(2) }}
               </span>
             </div>
         </div>
@@ -169,4 +187,17 @@ const addCurrency = () => {
   opacity: 0;        /* 👈 invisible but clickable */
   cursor: pointer;
 }
+
+.exchange__amount {
+  margin-left: 1rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.5rem;
+}
+
+.exchange__amount-label {
+  font-size: 0.9rem;
+  color: #555;
+  margin-left: 1rem;
+}
+
 </style>

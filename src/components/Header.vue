@@ -10,6 +10,7 @@
       <nav class="nav">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
         <RouterLink to="/about" class="nav-link">About</RouterLink>
+        <RouterLink to="/time" class="nav-link">Time</RouterLink>
       </nav>
     </div>
   </header>
