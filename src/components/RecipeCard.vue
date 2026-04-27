@@ -1,10 +1,11 @@
 <script setup lang="ts">
  defineProps(['recipe'])
+ import RecipeCardImage from './RecipeCardImage.vue'
 </script>
 
 <template>
   <div class="recipe-card">
-    <img v-bind:src="'/photos/' + recipe.image" alt="recipe" />
+    <RecipeCardImage :recipe="recipe"/>
     <div class="quickview">
       <h1>{{ recipe.title }}</h1>
       <div class="details">
