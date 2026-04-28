@@ -2,69 +2,84 @@
 </script>
 
 <template>
-  <header class="header">
-    <div class="container-xxl">
-      <RouterLink to="/" class="logo" aria-label="logo">
-        <img class="logo-img" src="@/assets/logo.svg" alt="logo" />
-      </RouterLink>
-      <nav class="nav">
-        <RouterLink to="/" class="nav-link">Home</RouterLink>
-        <RouterLink to="/about" class="nav-link">About</RouterLink>
-        <RouterLink to="/time" class="nav-link">Time</RouterLink>
-      </nav>
+<header class="header">
+    <div class="container-xxl header__container">
+        <RouterLink to="/" class="header__logo" aria-label="logo">
+            <img
+            class="header__logo-img"
+            src="@/assets/logo.svg"
+            alt="logo"
+            />
+        </RouterLink>
+
+        <nav class="header__nav">
+            <RouterLink  to="/" class="header__link" active-class="header__link--active">
+            Home
+            </RouterLink>
+
+            <RouterLink to="/about" class="header__link" active-class="header__link--active">
+            About
+            </RouterLink>
+
+            <RouterLink to="/time" class="header__link" active-class="header__link--active">
+            Time
+            </RouterLink>
+        </nav>
     </div>
-  </header>
+</header>
 </template>
 
-<style scoped>
-    .container-xxl {
+<style scoped lang="scss">
+.header {
+    padding: 1rem 0;
+    background-color: $color-primary;
+    color: $color-text;
+
+    &__container {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .header {
-        background-color: darkcyan;
-        color: white;
-        padding: 18px 0;
-    }
-
-    .logo {
+    &__logo {
         display: flex;
         align-items: center;
-        gap: 10px;
-        width: 100%;
+        gap: 0.5rem;
     }
 
-    .logo-img {
-        height: 50px;
+    &__logo-img {
+        height: 3rem;
     }
 
-    .nav {
+    &__nav {
         display: flex;
-        gap: 20px;
+        gap: 1.25rem;
     }
 
-    .nav-link {
-        color: lightblue;
-        text-decoration: none;
+    &__link {
         font-weight: 500;
+        text-decoration: none;
+        color: $color-link;
         transition: color 0.3s;
-    }
 
-    .nav-link:hover {
-        color: lightgreen;
-    }
+        &:hover {
+        color: $color-link-hover;
+        }
 
-    .nav-link.active {
-        color: green;
+        &--active {
+        color: $color-link-active;
         font-weight: 700;
-    }
-
-    @media (max-width: 768px) {
-        .header .container-xxl {
-            flex-direction: column;
-            gap: 10px;
         }
     }
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .header {
+        &__container {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+    }
+}
 </style>

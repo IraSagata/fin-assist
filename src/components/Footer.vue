@@ -7,11 +7,11 @@
     </footer>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
     footer {
         width: auto;
-        background: #D17862;
-        color: white;
+        background: $color-primary;
+        color: $color-white;
         text-align: center;
         padding: 0.25rem;
         margin-top: auto;

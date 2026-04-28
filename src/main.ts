@@ -1,4 +1,4 @@
-import './styles/main.css'
+import './styles/main.scss'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
@@ -9,16 +9,16 @@ import Time from './Time.vue'
 
 //  Type-safe routes
 const routes: Array<RouteRecordRaw> = [
-  { path: '/', name: 'home', component: Home },
-  { path: '/about', name: 'about', component: About },
-  { path: '/time', name: 'time', component: Time },
+    { path: '/', name: 'home', component: Home },
+    { path: '/about', name: 'about', component: About },
+    { path: '/time', name: 'time', component: Time },
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
-  routes,
+    history: createWebHistory(),
+    routes,
 })
 
 createApp(App)
-  .use(router)
-  .mount('#app')
+    .use(router)
+    .mount('#app')

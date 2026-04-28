@@ -40,7 +40,7 @@ watch(
   [selectedCurrency, targetCurrencies, amount], 
   async () => {
     const response = await fetch(
-      `${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`
+        `${apiBaseUrl}/rates?base=${selectedCurrency.value}&quotes=${targetCurrencies.join(',')}`
     )
     data.value = await response.json()
   },
@@ -66,138 +66,183 @@ const addCurrency = () => {
 </script>
 
 <template>
-  <Banner>
-    <p>🚨 <strong>NEW RECIPE:</strong> Triple Chocolate Chip Cookies! 🚨</p>
-  </Banner>
-  <main>
+<main>
     <section class="exchange__section">
-      <div class="container-xxl">
-        <h1 class="exchange__title">Exchange rate</h1>
-          <label class="exchange__label" for="currencies">Choose a currency:</label>
-          <select class="exchange__select" id="currencies" v-model="selectedCurrency">
-            <option
-              class="exchange__option"
-              v-for="currency in allCurrencies"
-            :key="currency"
-              :value="currency.iso_code"
-            >
-              {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
-            </option>
-          </select>
-          <label class="exchange__amount-label" for="amount">Amount:</label>
-          <input class="exchange__amount" type="number" v-model="amount" />
-        <div class="exchange__rates">
-            <div
-              v-for="item in data"
-              :key="item.quote"
-              class="exchange__rate-item"
-            >
-              <span class="exchange__currency">
-                {{ item.quote }} ({{ getCurrencyName(item.quote) }})
-              </span>
-              <span class="exchange__rate">
-                {{ (item.rate * amount).toFixed(2) }}
-              </span>
+        <div class="container-xxl">
+            <h1 class="exchange__title">Exchange rate</h1>
+            <label class="exchange__label" for="currencies">Choose a currency:</label>
+            <select class="exchange__select" id="currencies" v-model="selectedCurrency">
+                <option
+                class="exchange__option"
+                v-for="currency in allCurrencies"
+                :key="currency"
+                :value="currency.iso_code"
+                >
+                {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
+                </option>
+            </select>
+            <label class="exchange__amount-label" for="amount">Amount:</label>
+            <input class="exchange__amount" type="number" v-model="amount" />
+            <div class="exchange__rates">
+                <div
+                v-for="item in data"
+                :key="item.quote"
+                class="exchange__rate-item"
+                >
+                    <span class="exchange__currency">
+                        {{ item.quote }} ({{ getCurrencyName(item.quote) }})
+                    </span>
+                    <span class="exchange__rate">
+                        {{ (item.rate * amount).toFixed(2) }}
+                    </span>
+                </div>
+            </div>
+            <div class="exchange-add">
+                <button class="add-btn">+</button>
+                <select
+                    class="exchange__select-add"
+                    name="currenciesAddButton"
+                    v-model="newCurrency"
+                    @change="addCurrency"
+                >
+                    <option disabled value="">Select currency</option>
+                    <option
+                    v-for="currency in allCurrencies"
+                    :key="currency.iso_code"
+                    :value="currency.iso_code"
+                    >
+                        {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="exchange-add">
-  <button class="add-btn">+</button>
-
-  <select
-    class="exchange__select-add"
-    name="currenciesAddButton"
-    v-model="newCurrency"
-    @change="addCurrency"
-  >
-    <option disabled value="">Select currency</option>
-
-    <option
-      v-for="currency in allCurrencies"
-      :key="currency.iso_code"
-      :value="currency.iso_code"
-    >
-      {{ currency.iso_code }} ({{ getCurrencyName(currency.iso_code) }})
-    </option>
-  </select>
-</div>
-        </div>
     </section>
-  </main>
+</main>
 </template>
 
-<style scoped>
-.exchange__label {
-  font-size: 0.9rem;
-  color: #555;
-  margin-right: 1rem;
-}
+<style scoped lang="scss">
+    .exchange__section {
+        background: linear-gradient(180deg, #F7F4F2 0%, #EFEAE7 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
 
-.exchange__select {
-  padding: 0.6rem 0.8rem;
-  border-radius: 0.5rem;
-  margin-top: 0.6rem;
-}
+        /* title */
+        .exchange__title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #2B2B2B;
+            margin-bottom: 1.5rem;
+        }
 
-.exchange__select:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(3, 6, 11, 0.2);
-}
+        /* rates container */
+        .exchange__rates {
+            margin-top: 1.5rem;
+        }
 
-.exchange__rate-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  margin-top: 0.75rem;
-  border-radius: 0.5rem;
-  background-color: #f3f4f6;
-}
+        /* rate item */
+        .exchange__rate-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
-.exchange__value {
-  font-weight: 600;
-  color: #111827;
-}
+            padding: 1rem 1.2rem;
+            margin: 0.4rem 0;
 
-.exchange-add {
-  position: relative;
-  display: inline-block;
-}
+            border-radius: 1rem;
+            background: $color-white;
 
-/* Your nice button */
-.add-btn {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  border: none;
-  background: #2d6cdf;
-  margin-top: 1rem;
-  color: white;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
+            transition: all 0.2s ease;
 
-/* Invisible select ON TOP of button */
-.exchange__select-add {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+            &:hover {
+                transform: scale(1.02);
+                box-shadow: 0 0.3125rem 0.9375rem rgba(0, 0, 0, 0.08);
+            }
+        }
 
-  opacity: 0;        /* 👈 invisible but clickable */
-  cursor: pointer;
-}
+        .exchange__currency {
+            font-size: 0.95rem;
+            color: #7A7A7A;
+        }
 
-.exchange__amount {
-  margin-left: 1rem;
-  padding: 0.6rem 0.8rem;
-  border-radius: 0.5rem;
-}
+        .exchange__rate {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #2B2B2B;
+        }
 
-.exchange__amount-label {
-  font-size: 0.9rem;
-  color: #555;
-  margin-left: 1rem;
-}
+        .exchange__select {
+            width: 100%;
+        }
+        
+        .exchange__select,
+        .exchange__amount {
+            margin-top: 0.5rem;
 
+            padding: 0.8rem 1rem;
+            border-radius: 1rem;
+
+            border: 0.0625rem solid #E5E5E5;
+            background: $color-white;
+
+            font-size: 1rem;
+            transition: all 0.2s ease;
+
+            &:focus {
+            outline: none;
+            border-color: $color-primary;
+            box-shadow: 0 0 0 0.25rem rgba(209, 120, 98, 0.15);
+            }
+        }
+
+        /* labels */
+        .exchange__label,
+        .exchange__amount-label {
+            display: block;
+            margin-top: 1rem;
+
+            font-size: 0.85rem;
+            color: #7A7A7A;
+        }
+
+        /* add button wrapper */
+        .exchange-add {
+            position: relative;
+            display: inline-block;
+            margin-top: 2rem;
+
+            .add-btn {
+                width: 3.2rem;
+                height: 3.2rem;
+
+                border-radius: 50%;
+                border: none;
+
+                background: linear-gradient(135deg, #D17862, #E8A598);
+                color: #fff;
+
+                font-size: 1.6rem;
+                font-weight: 500;
+
+                box-shadow: 0 0.625rem 1.5625rem rgba(209, 120, 98, 0.4);
+
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    transform: scale(1.1);
+                }
+
+                &:active {
+                    transform: scale(0.95);
+                }
+            }
+
+            .exchange__select-add {
+                position: absolute;
+                inset: 0;
+                opacity: 0;
+                cursor: pointer;
+            }
+        }
+    }
 </style>

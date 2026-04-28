@@ -7,7 +7,7 @@
     </section>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
     .banner {
         width: auto;
         background:#ffe97b;

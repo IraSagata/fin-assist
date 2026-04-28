@@ -1,22 +1,22 @@
 <script setup lang="ts">
-  import Footer from './components/Footer.vue'
-  import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import Header from './components/Header.vue'
 </script>
 
 <template>
-  <div class="wrapper">
+<div class="wrapper">
     <Header />
     <main>
-      <RouterView />
+        <RouterView />
     </main>
     <Footer />
-  </div>
+</div>
 </template>
 
-<style scoped>
-  .wrapper {
+<style scoped lang="scss">
+.wrapper {
     min-height: 100vh;
     display: grid;
     grid-template-rows: auto 1fr auto;
-  }
+}
 </style>
