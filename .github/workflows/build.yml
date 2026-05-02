@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+permissions:
+  packages: write
 env:
   REPO: irasagata/fin-assist
 jobs:
